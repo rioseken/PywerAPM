@@ -22,6 +22,13 @@ date_beg               = datetime.datetime(2020, 1, 1,1)
 load_growth            = 0.02                              # Assumed load growth per year       
 h_end                  = 5*24*365                          # Assumed period of planning 
 
+
+# Project data
+report_data = {
+		"Name"      : 'Asset Management',
+		"Sub_title" : 'APM - Fleet Performance'
+	}
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                                               #
 #                 Normal Operating conditions                   #
@@ -30,23 +37,6 @@ h_end                  = 5*24*365                          # Assumed period of p
 
 # Create contingencies assessment object
 Cont_A = RTC_A(net_file,file_tags)
-#->Cont_A.Load_Growth_Update(load_growth) 
-# # # # # # # # # # # # # # # # # # # # # # #
-# # # # # # # Run base line # # # # # # # # #
-
-#->df_base_line,df_load = Cont_A.Run_Case_Load_growth(Cont_A.net,load_growth,date_beg,h_end)
-#sys.exit()
-
-#df_base_line,df_load = Cont_A.Run_Case_Base(Cont_A.net)
-#->S_base = sqrt((Cont_A.net.load['p_mw']**2+  Cont_A.net.load['q_mvar']**2).max())
-#->S_base = Cont_A.net.trafo['sn_mva'].max()
-
-# # # # # # # # Plot line base # # # # #
-#->Plot_Stack(df_load,'RESULTS/IEEE36_Base_Case_')
-#->sys.exit()
-#->Plot_All_Days_Hour_Data(df_base_line,'RESULTS/IEEE36_Base_TR_Case_',S_base=S_base,LN=False)
-#->Plot_All_Days_Hour_Data(df_base_line,'RESULTS/IEEE36_Base_LN_Case_',S_base=S_base,TR=False)
-#->Plot_All_Days_Hour_Data(df_base_line,'RESULTS/IEEE36_Base_BU_Case_',TR=False,LN=False,BU=True)
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -56,11 +46,13 @@ Cont_A = RTC_A(net_file,file_tags)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
-# Asset porfolio 
+# Porfolio assessment 
 from APM_Module import APM 
 Assets  = APM(asset_portfolio_source,load_growth)
 
 
-from ST_AM_Contingencies_Ploty import Plot_Asset_Condition_Assessment
+# Generate report
+from  R1_Reports import Test_Report_AP
+Test_Report_AP(report_data,Assets)
 
 
